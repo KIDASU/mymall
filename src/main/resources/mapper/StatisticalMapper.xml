@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmu.www.mymall.dao.StatisticalMapper">
+
+
+    <select id="groupByGender" resultType="map">
+
+      select user_gender,count(*) number
+      from user
+      group by user_gender
+
+    </select>
+
+    <select id="groupByDate" resultType="map">
+      select date_format(creat_date,'%Y-%m-%d') as date, count(*)as quantity,sum(total_price)as total
+      from order_total
+      group by date;
+    </select>
+
+    <select id="groupByAge" resultType="map">
+      select
+	count(*) as 'value',
+     case
+
+		when age between 0
+		and 10 then
+			'0-10岁'
+			when age between 10
+			and 20 then
+				'10-20岁'
+				when age between 21
+				and 30 then
+					'21-30岁'
+					when age between 31
+					and 40 then
+						'31-40岁'
+						when age between 41
+						and 50 then
+							'41-50岁'
+							when age between 51
+							and 60 then
+								'51-60岁'
+								when age >= 61 then
+								'61岁以上'
+							end as ageband
+						from
+							( select timestampdiff( year, user_birthday, curdate()) as age from user ) as tbl
+						group by
+							ageband;
+    </select>
+
+
+  
+</mapper>

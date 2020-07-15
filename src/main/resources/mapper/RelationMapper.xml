@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmu.www.mymall.dao.RelationMapper">
+
+    <select id="selectCartItem" resultType="map">
+        select cart_item.*, goods_name, goods_description, goods_price
+        from cart_item
+                 inner join goods g on cart_item.goods_id = g.goods_id
+        where user_id = #{userId}
+    </select>
+
+    <select id="selectComment" resultType="map">
+        select comment.*,user_nickname
+        from comment
+                inner join user u on comment.user_id = u.user_id
+        where goods_id=#{goodsId}
+
+    </select>
+
+    <select id="selectOrderItem" resultType="map">
+        select order_item.order_item_id,order_item.number,order_item.price,g.goods_id,g.goods_name,order_item.status
+        from order_item
+                inner join goods g on order_item.goods_id = g.goods_id
+        where order_id=#{orderId}
+    </select>
+
+
+</mapper>

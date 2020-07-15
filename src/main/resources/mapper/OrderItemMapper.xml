@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmu.www.mymall.dao.OrderItemMapper">
+  <resultMap id="BaseResultMap" type="com.xmu.www.mymall.domain.OrderItem">
+    <id column="order_item_id" jdbcType="BIGINT" property="orderItemId" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="deal_price" jdbcType="DECIMAL" property="dealPrice" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    order_item_id, order_id, status, number, price, deal_price, gmt_create, is_delete, 
+    goods_id
+  </sql>
+  <select id="selectOrderItem" resultType="map">
+  select order_item.* from order_item
+  where order_item.order_id=#{oid}
+  </select>
+  <select id="selectByExample" parameterType="com.xmu.www.mymall.domain.OrderItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from order_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_item
+    where order_item_id = #{orderItemId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from order_item
+    where order_item_id = #{orderItemId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xmu.www.mymall.domain.OrderItemExample">
+    delete from order_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xmu.www.mymall.domain.OrderItem">
+    insert into order_item (order_item_id, order_id, status, 
+      number, price, deal_price, 
+      gmt_create, is_delete, goods_id
+      )
+    values (#{orderItemId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, 
+      #{number,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{dealPrice,jdbcType=DECIMAL}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}, #{goodsId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xmu.www.mymall.domain.OrderItem">
+    insert into order_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderItemId != null">
+        order_item_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="dealPrice != null">
+        deal_price,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderItemId != null">
+        #{orderItemId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="dealPrice != null">
+        #{dealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmu.www.mymall.domain.OrderItemExample" resultType="java.lang.Long">
+    select count(*) from order_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update order_item
+    <set>
+      <if test="record.orderItemId != null">
+        order_item_id = #{record.orderItemId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.number != null">
+        number = #{record.number,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dealPrice != null">
+        deal_price = #{record.dealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="record.goodsId != null">
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update order_item
+    set order_item_id = #{record.orderItemId,jdbcType=BIGINT},
+      order_id = #{record.orderId,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=TINYINT},
+      number = #{record.number,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      deal_price = #{record.dealPrice,jdbcType=DECIMAL},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=TINYINT},
+      goods_id = #{record.goodsId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xmu.www.mymall.domain.OrderItem">
+    update order_item
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="dealPrice != null">
+        deal_price = #{dealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where order_item_id = #{orderItemId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xmu.www.mymall.domain.OrderItem">
+    update order_item
+    set order_id = #{orderId,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      number = #{number,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      deal_price = #{dealPrice,jdbcType=DECIMAL},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      goods_id = #{goodsId,jdbcType=BIGINT}
+    where order_item_id = #{orderItemId,jdbcType=BIGINT}
+  </update>
+</mapper>
